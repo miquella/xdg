@@ -1,8 +1,3 @@
-/*
-An implementation of the XDG Base Directory Specification.
-
-For more information, see: http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
-*/
 package xdg
 
 import (
