@@ -10,17 +10,31 @@ import (
 )
 
 var (
-	DATA_HOME Path
-	DATA_DIRS Paths
-	DATA      Paths
+	// Both user-specific and standard directories to search for data files.
+	// (same as DATA_DIRS, but including preferring DATA_HOME)
+	DATA Paths
 
-	CONFIG_HOME Path
-	CONFIG_DIRS Paths
-	CONFIG      Paths
+	// Directory to write user-specific data files.
+	DATA_HOME Path // $XDG_DATA_HOME (default: $HOME/.local/share)
 
-	CACHE_HOME Path
+	// Directories to search for data files, in preference order.
+	DATA_DIRS Paths // $XDG_DATA_DIRS (default: /usr/local/share:/usr/share)
 
-	RUNTIME_DIR Path
+	// Both user-specific and standard directories to search for config files.
+	// (same as CONFIG_DIRS, but including preferring CONFIG_HOME)
+	CONFIG Paths
+
+	// Directory to write user-specific config files.
+	CONFIG_HOME Path // $XDG_CONFIG_HOME (default: $HOME/.config)
+
+	// Directories to search for config files, in preference order.
+	CONFIG_DIRS Paths // $XDG_CONFIG_DIRS (default: /etc/xdg)
+
+	// Directory to write user-specific, non-essential (cached) data files.
+	CACHE_HOME Path // $XDG_CACHE_HOME (default: $HOME/.cache)
+
+	// Directory to write user-specific runtime files and other file objects.
+	RUNTIME_DIR Path // $XDG_RUNTIME_DIR
 )
 
 func init() {
@@ -54,19 +68,37 @@ func init() {
 }
 
 type XDG struct {
-	DATA_HOME Path
-	DATA_DIRS Paths
-	DATA      Paths
+	// Both user-specific and standard directories to search for data files.
+	// (same as DATA_DIRS, but including preferring DATA_HOME)
+	DATA Paths
 
-	CONFIG_HOME Path
-	CONFIG_DIRS Paths
-	CONFIG      Paths
+	// Directory to write user-specific data files.
+	DATA_HOME Path // $XDG_DATA_HOME (default: $HOME/.local/share)
 
-	CACHE_HOME Path
+	// Directories to search for data files, in preference order.
+	DATA_DIRS Paths // $XDG_DATA_DIRS (default: /usr/local/share:/usr/share)
 
-	RUNTIME_DIR Path
+	// Both user-specific and standard directories to search for config files.
+	// (same as CONFIG_DIRS, but including preferring CONFIG_HOME)
+	CONFIG Paths
+
+	// Directory to write user-specific config files.
+	CONFIG_HOME Path // $XDG_CONFIG_HOME (default: $HOME/.config)
+
+	// Directories to search for config files, in preference order.
+	CONFIG_DIRS Paths // $XDG_CONFIG_DIRS (default: /etc/xdg)
+
+	// Directory to write user-specific, non-essential (cached) data files.
+	CACHE_HOME Path // $XDG_CACHE_HOME (default: $HOME/.cache)
+
+	// Directory to write user-specific runtime files and other file objects.
+	RUNTIME_DIR Path // $XDG_RUNTIME_DIR
 }
 
+// WithSuffix joins a given name to each of the paths resolved by the package.
+//
+// This is useful for ensuring all XDG access is properly scoped to the calling
+// application.
 func WithSuffix(name string) *XDG {
 	data_home := Path(DATA_HOME.Join(name))
 	var data_dirs Paths
